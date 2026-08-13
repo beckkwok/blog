@@ -41,6 +41,10 @@ export default buildConfig({
     pool: {
       connectionString: process.env.DATABASE_URL || '',
     },
+    // Push the schema on startup in production too. There are no committed
+    // migrations in this project, so without this the tables would never be
+    // created in a fresh production database (dev mode auto-pushes, prod doesn't).
+    push: true,
     afterSchemaInit: [pgVectorSchemaHook],
   }),
   onInit: async (payload) => {
