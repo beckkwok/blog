@@ -12,7 +12,9 @@ services:
         condition: service_healthy
     environment:
       # Hostname `postgres` resolves inside the compose network (not 127.0.0.1).
-      DATABASE_URL: postgres://postgres:postgres@postgres:5432/payload-blog
+      # Password comes from .env (POSTGRES_PASSWORD) so it stays in sync with
+      # the postgres service below.
+      DATABASE_URL: postgres://postgres:${POSTGRES_PASSWORD:-postgres}@postgres:5432/payload-blog
       PAYLOAD_SECRET: ${PAYLOAD_SECRET:?set PAYLOAD_SECRET in .env}
       OPENAI_API_KEY: ${OPENAI_API_KEY:-}
       DEEPSEEK_API_KEY: ${DEEPSEEK_API_KEY:-}

@@ -14,7 +14,9 @@ services:
     env_file:
       - .env
     environment:
-      DATABASE_URL: postgres://postgres:postgres@postgres:5432/payload-blog
+      # Hostname `postgres` resolves inside the compose network. Password comes
+      # from .env (POSTGRES_PASSWORD), kept in sync with the postgres service.
+      DATABASE_URL: postgres://postgres:${POSTGRES_PASSWORD:-postgres}@postgres:5432/payload-blog
 
   postgres:
     image: pgvector/pgvector:pg16
@@ -24,7 +26,7 @@ services:
       - '127.0.0.1:5432:5432'
     environment:
       POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
       POSTGRES_DB: payload-blog
     volumes:
       - pgdata:/var/lib/postgresql/data
