@@ -11,3 +11,14 @@ export const siteConfig = {
 export function absoluteUrl(path = ''): string {
   return `${siteConfig.url}${path}`
 }
+
+/**
+ * Extracts non-empty tag strings from a Payload tags array.
+ * The type guard ensures callers get `string[]` (not `(string|null)[]`).
+ */
+export function extractTags(tags: { tag?: string | null }[] | null | undefined): string[] {
+  if (!tags) return []
+  return tags
+    .map((t) => t?.tag)
+    .filter((tag): tag is string => Boolean(tag) && (tag as string).trim().length > 0)
+}

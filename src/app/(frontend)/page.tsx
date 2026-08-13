@@ -14,6 +14,7 @@ import {
   CardTitle,
 } from '@/components/ui/card'
 import { lexicalToPlainText } from '@/lib/lexical'
+import { extractTags } from '@/lib/site'
 import { getProjects, getPublishedPosts } from '@/lib/site-data'
 
 export const dynamic = 'force-dynamic'
@@ -95,9 +96,7 @@ export default async function HomePage() {
                   <div className="flex items-center gap-2 text-xs text-muted-foreground">
                     {post.publishedDate && <span>{formatDate(post.publishedDate)}</span>}
                     {post.tags?.length
-                      ? post.tags
-                          .map((t) => t?.tag)
-                          .filter(Boolean)
+                      ? extractTags(post.tags)
                           .slice(0, 3)
                           .map((tag) => (
                             <Badge key={tag} variant="secondary" className="font-normal">

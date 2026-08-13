@@ -14,6 +14,7 @@ import {
   CardTitle,
 } from '@/components/ui/card'
 import { getPublishedPosts } from '@/lib/site-data'
+import { extractTags } from '@/lib/site'
 
 export const dynamic = 'force-dynamic'
 
@@ -32,7 +33,8 @@ type PageProps = { searchParams: Promise<{ page?: string }> }
 export default async function BlogsPage({ searchParams }: PageProps) {
   const { page: pageParam } = await searchParams
   const page = Math.max(1, Number(pageParam) || 1)
-  const { docs: posts, totalPages, page: currentPage, totalDocs } = await getPublishedPosts(PAGE_SIZE, page)
+  const { docs: posts, totalPages, page: currentPageRaw, totalDocs } = await getPublishedPosts(PAGE_SIZE, page)
+  const currentPage = currentPageRaw ?? page
 
   return (
     <div className="mx-auto max-w-5xl px-4 py-16 sm:px-6 sm:py-24">
@@ -76,9 +78,7 @@ export default async function BlogsPage({ searchParams }: PageProps) {
                       <FileText className="size-3.5" />
                       {post.publishedDate && <span>{formatDate(post.publishedDate)}</span>}
                       {post.tags?.length
-                        ? post.tags
-                            .map((t) => t?.tag)
-                            .filter(Boolean)
+                        ? extractTags(post.tags)
                             .slice(0, 3)
                             .map((tag) => (
                               <Badge key={tag} variant="secondary" className="font-normal">

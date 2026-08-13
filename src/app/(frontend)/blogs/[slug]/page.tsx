@@ -11,7 +11,7 @@ import { Button } from '@/components/ui/button'
 import { Separator } from '@/components/ui/separator'
 import { lexicalToPlainText } from '@/lib/lexical'
 import { getPostBySlug, getPublishedPosts } from '@/lib/site-data'
-import { absoluteUrl, siteConfig } from '@/lib/site'
+import { absoluteUrl, extractTags, siteConfig } from '@/lib/site'
 
 export const dynamic = 'force-dynamic'
 
@@ -40,7 +40,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   if (!post) return {}
 
   const cover = post.coverImage && typeof post.coverImage !== 'number' ? post.coverImage : null
-  const tags = post.tags?.map((t) => t?.tag).filter(Boolean) || []
+  const tags = extractTags(post.tags)
 
   return {
     title: post.title,
@@ -75,7 +75,7 @@ export default async function BlogPostPage({ params, searchParams }: PageProps) 
 
   if (!post) notFound()
 
-  const tags = post.tags?.map((t) => t?.tag).filter(Boolean) || []
+  const tags = extractTags(post.tags)
   const cover = post.coverImage && typeof post.coverImage !== 'number' ? post.coverImage : null
   const minutes = readingTime(post.content)
 
