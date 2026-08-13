@@ -6,6 +6,19 @@ set -euo pipefail
 
 COMPOSE_FILE="docker-compose.prod.yml"
 
+# Auto-detect the compose command.
+# Docker 20.10.x uses the standalone `docker-compose` (v1);
+# newer Docker ships the `docker compose` (v2) plugin.
+if command -v docker-compose >/dev/null 2>&1; then
+  COMPOSE="docker-compose"
+elif docker compose version >/dev/null 2>&1; then
+  COMPOSE="docker compose"
+else
+  echo "ERROR: neither 'docker-compose' nor 'docker compose' is available."
+  exit 1
+fi
+echo "Using compose command: ${COMPOSE}"
+
 if [[ ! -f .env ]]; then
   echo "ERROR: .env not found. Create it from .env.prod.example:"
   echo "  cp .env.prod.example .env   # then edit PAYLOAD_SECRET etc."
@@ -18,7 +31,7 @@ if git rev-parse --git-dir >/dev/null 2>&1; then
 fi
 
 echo "==> Building and starting the production stack ..."
-docker compose -f "${COMPOSE_FILE}" up -d --build
+${COMPOSE} -f "${COMPOSE_FILE}" up -d --build
 
 echo "==> Waiting for payload to come up ..."
 for i in $(seq 1 30); do
@@ -30,5 +43,5 @@ for i in $(seq 1 30); do
 done
 
 echo "WARN: payload did not respond yet. Check logs with:"
-echo "  docker compose -f ${COMPOSE_FILE} logs -f payload"
+echo "  ${COMPOSE} -f ${COMPOSE_FILE} logs -f payload"
 exit 1
