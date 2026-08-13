@@ -215,6 +215,7 @@ export interface BlogPost {
   };
   updatedAt: string;
   createdAt: string;
+  _status?: ('draft' | 'published') | null;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -258,6 +259,7 @@ export interface Project {
   publishedDate?: string | null;
   updatedAt: string;
   createdAt: string;
+  _status?: ('draft' | 'published') | null;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -270,6 +272,7 @@ export interface Contact {
   subject?: string | null;
   message: string;
   handled?: boolean | null;
+  website?: string | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -461,6 +464,7 @@ export interface BlogPostsSelect<T extends boolean = true> {
   content?: T;
   updatedAt?: T;
   createdAt?: T;
+  _status?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -483,6 +487,7 @@ export interface ProjectsSelect<T extends boolean = true> {
   publishedDate?: T;
   updatedAt?: T;
   createdAt?: T;
+  _status?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -494,6 +499,7 @@ export interface ContactSelect<T extends boolean = true> {
   subject?: T;
   message?: T;
   handled?: T;
+  website?: T;
   updatedAt?: T;
   createdAt?: T;
 }
