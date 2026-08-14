@@ -1,4 +1,4 @@
-import { Geist_Mono, Roboto } from 'next/font/google'
+import localFont from 'next/font/local'
 import React from 'react'
 
 import { ChatWidget } from '@/components/ChatWidget'
@@ -8,14 +8,14 @@ import { Toaster } from '@/components/ui/sonner'
 import { siteConfig } from '@/lib/site'
 import './globals.css'
 
-const roboto = Roboto({
-  subsets: ['latin'],
+const roboto = localFont({
+  src: './fonts/Roboto-latin.woff2',
   variable: '--font-roboto',
-  weight: ['400', '500', '700'],
+  weight: '400 700',
 })
 
-const geistMono = Geist_Mono({
-  subsets: ['latin'],
+const geistMono = localFont({
+  src: './fonts/GeistMono-latin.woff2',
   variable: '--font-geist-mono',
 })
 
