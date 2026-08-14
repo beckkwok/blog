@@ -19,6 +19,7 @@ import {
 import { pgVectorSchemaHook } from './collections/helpers/pgvector'
 import { ensureSearchTsvColumn } from './collections/helpers/searchTsv'
 import { About } from './collections/About'
+import { migrations } from './migrations'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -41,11 +42,15 @@ export default buildConfig({
     pool: {
       connectionString: process.env.DATABASE_URL || '',
     },
-    // Push the schema on startup in production too. There are no committed
-    // migrations in this project, so without this the tables would never be
-    // created in a fresh production database (dev mode auto-pushes, prod doesn't).
+    // Dev mode auto-pushes the schema. In production schema push is disabled
+    // by Payload, so tables are created by running the committed migrations
+    // on startup via `prodMigrations`.
     push: true,
     afterSchemaInit: [pgVectorSchemaHook],
+    prodMigrations: migrations,
+    // Ensure the pgvector extension exists before migrations create the
+    // vector(1536) column on `knowledge_chunks` in a fresh production DB.
+    extensions: ['vector'],
   }),
   onInit: async (payload) => {
     await ensureSearchTsvColumn(payload)
