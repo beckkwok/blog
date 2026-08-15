@@ -8,6 +8,7 @@ import * as React from 'react'
 import { ThemeToggle } from '@/components/ThemeToggle'
 import { Button } from '@/components/ui/button'
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet'
+import { siteConfig } from '@/lib/site'
 import { cn } from '@/lib/utils'
 
 const links = [
@@ -32,7 +33,7 @@ export function Nav() {
           <span className="flex size-7 items-center justify-center rounded-md bg-primary text-primary-foreground">
             <Terminal className="size-4" />
           </span>
-          <span>beckk&apos;s blog</span>
+          <span>{siteConfig.author}&apos;s blog</span>
         </Link>
 
         <nav className="hidden items-center gap-1 md:flex">

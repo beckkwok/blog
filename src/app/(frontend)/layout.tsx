@@ -43,7 +43,7 @@ export default async function RootLayout(props: { children: React.ReactNode }) {
           <Nav />
           <main>{children}</main>
           <footer className="border-t py-8 text-center text-sm text-muted-foreground">
-            <p>© {new Date().getFullYear()} beckk. Built with Payload CMS + Next.js.</p>
+            <p>© {new Date().getFullYear()} {siteConfig.author}. Built with Payload CMS + Next.js.</p>
           </footer>
           <ChatWidget />
           <Toaster />

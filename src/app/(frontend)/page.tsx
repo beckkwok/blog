@@ -14,8 +14,8 @@ import {
   CardTitle,
 } from '@/components/ui/card'
 import { lexicalToPlainText } from '@/lib/lexical'
-import { extractTags } from '@/lib/site'
-import { getProjects, getPublishedPosts } from '@/lib/site-data'
+import { extractTags, siteConfig } from '@/lib/site'
+import { getAbout, getProjects, getPublishedPosts } from '@/lib/site-data'
 
 export const dynamic = 'force-dynamic'
 
@@ -28,7 +28,12 @@ function formatDate(date: string) {
 }
 
 export default async function HomePage() {
-  const [{ docs: posts }, projects] = await Promise.all([getPublishedPosts(5), getProjects(5)])
+  const [{ docs: posts }, projects, about] = await Promise.all([
+    getPublishedPosts(5),
+    getProjects(5),
+    getAbout(),
+  ])
+  const heroImage = about?.photo && typeof about.photo !== 'number' ? about.photo : null
 
   return (
     <div className="mx-auto max-w-5xl px-4 sm:px-6">
@@ -38,7 +43,7 @@ export default async function HomePage() {
             Welcome
           </Badge>
           <h1 className="text-4xl font-bold tracking-tight sm:text-6xl">
-            Hello, I&apos;m beckk.
+            Hello, I&apos;m {siteConfig.author}.
           </h1>
           <p className="mt-4 text-lg text-muted-foreground sm:text-xl">
             Welcome to my little corner of the internet. I write about building things, and
@@ -55,6 +60,20 @@ export default async function HomePage() {
             </Button>
           </div>
         </div>
+
+        {heroImage?.url && (
+          <div className="relative mt-12 aspect-video w-full overflow-hidden rounded-2xl border bg-muted">
+            <Image
+              src={heroImage.url}
+              alt={heroImage.alt || siteConfig.name}
+              fill
+              priority
+              sizes="(max-width: 1024px) 100vw, 1024px"
+              className="object-cover"
+              unoptimized={heroImage.url.startsWith('/api/')}
+            />
+          </div>
+        )}
       </section>
 
       <section className="pb-16 sm:pb-24">
