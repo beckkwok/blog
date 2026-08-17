@@ -1,11 +1,11 @@
 /** Central site metadata shared by SEO routes and pages. */
 export const siteConfig = {
-  name: 'beckk blog',
-  title: 'beckk blog',
+  name: 'Yung Ching KWOK',
+  title: 'Yung knowledge base',
   description: "beckk's personal blog — posts, projects, and an interview bot.",
   url: process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000',
-  author: 'beckk',
-  locale: 'en_US',
+  author: 'yung',
+  locale: 'en_GB',
 }
 
 export function absoluteUrl(path = ''): string {

@@ -46,8 +46,7 @@ export default async function HomePage() {
             Hello, I&apos;m {siteConfig.author}.
           </h1>
           <p className="mt-4 text-lg text-muted-foreground sm:text-xl">
-            Welcome to my little corner of the internet. I write about building things, and
-            I&apos;ve put together an interview bot so you can ask me questions directly.
+            Welcome to my little corner of the knowledge database. I write about building things, and interesting knowledge .
           </p>
           <div className="mt-8 flex flex-wrap gap-3">
             <Button asChild>
